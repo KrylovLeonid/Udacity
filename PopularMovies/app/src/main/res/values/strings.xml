@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Popular Movies</string>
+    <string name="mi_top_tated">Top rated</string>
+    <string name="mi_most_popular">Most popular</string>
+    <string name="connection_error">Popular Movies app cannot work offline. Please check internet connection on and restart the app. </string>
+    <string name="reviews">Reviews:</string>
+    <string name="trailers">Trailer:</string>
 </resources>
