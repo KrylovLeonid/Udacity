@@ -19,7 +19,7 @@ public final class MovieDataHolder {
     public static List<Movie> getTopRated(){
          return topRatedMoves;
     }
-    public static List<Movie> getPopulare(){
+    public static List<Movie> getPopular(){
         return popularMovies;
     }
 

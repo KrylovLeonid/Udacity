@@ -22,7 +22,8 @@ public class FetchMoviesData extends AsyncTask<URL,Void,JSONObject[]> {
         for(int i = 0; i < urls.length; i++) {
             try {
                 HttpURLConnection connection = (HttpURLConnection) urls[0].openConnection();
-                InputStream input = new BufferedInputStream(connection.getInputStream());
+                connection.connect();
+                BufferedInputStream input = new BufferedInputStream(connection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 try {
                     results[i] = new JSONObject(reader.readLine());
@@ -36,7 +37,7 @@ public class FetchMoviesData extends AsyncTask<URL,Void,JSONObject[]> {
         }
 
 
-        return null;
+        return results;
 
     }
 
