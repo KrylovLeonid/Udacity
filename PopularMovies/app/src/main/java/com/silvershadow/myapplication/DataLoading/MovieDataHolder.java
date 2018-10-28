@@ -1,5 +1,6 @@
 package com.silvershadow.myapplication.DataLoading;
 
+import com.silvershadow.myapplication.MainActivity;
 import com.silvershadow.myapplication.Movie;
 
 import org.json.JSONArray;
@@ -10,9 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class MovieDataHolder {
-    private static List<Movie> topRatedMoves;
-    private static List<Movie> popularMovies;
+    private static List<Movie> topRatedMoves = new ArrayList<>();
+    private static List<Movie> popularMovies = new ArrayList<>();
 
+    private MovieDataHolder(){
+
+    }
 
 
 
@@ -23,13 +27,15 @@ public final class MovieDataHolder {
         return popularMovies;
     }
 
-    public static void setTopRatedMoves(JSONObject obj) {
+    public static void setTopRatedMovies(JSONObject obj) {
         topRatedMoves = JSONtoMoviesList(obj);
 
     }
 
     public static void setPopularMovies(JSONObject obj) {
         popularMovies = JSONtoMoviesList(obj);
+
+
     }
 
 

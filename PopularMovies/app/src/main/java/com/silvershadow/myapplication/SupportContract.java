@@ -16,7 +16,7 @@ public class SupportContract {
     public static URL getMoviesURL(String sortType){
         URL result = null;
         try {
-            result = new  URL( new Uri.Builder().scheme("https").path("api.tmdb.org").appendPath("3").appendPath("movie").appendPath(sortType).appendQueryParameter("api_key", API_TOKEN)
+            result = new URL( new Uri.Builder().scheme("https").path("api.tmdb.org").appendPath("3").appendPath("movie").appendPath(sortType).appendQueryParameter("api_key", API_TOKEN)
                     .appendQueryParameter("page","1").build().toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
