@@ -1,7 +1,6 @@
 package com.silvershadow.myapplication.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
 import com.silvershadow.myapplication.Movie;
-import com.silvershadow.myapplication.MovieDetailsActivity;
 import com.silvershadow.myapplication.R;
 import com.silvershadow.myapplication.SupportContract;
 import com.squareup.picasso.Picasso;
@@ -23,29 +21,18 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-
-    public static String POSITION = "position";
-    public static String SORT_TYPE = "sort type";
-
-    public enum SortType{
-        TOP_RATED,
-        POPULAR
-    }
-
-    private static List<Movie> currentMovies;
-    private static SortType currentType;
+    private List<Movie> currentMovies = new ArrayList<>();
 
     public MoviesAdapter(){
-        currentMovies = new ArrayList<>();
-        currentType = SortType.POPULAR;
+        setMoviesToPopular();
     }
 
 
-    class MoviesViewHolder extends RecyclerView.ViewHolder{
+    public class MoviesViewHolder extends RecyclerView.ViewHolder{
         ImageView thumbnailIV;
         TextView titleTV;
 
-        private MoviesViewHolder(View itemView) {
+        public MoviesViewHolder(View itemView) {
             super(itemView);
             thumbnailIV = itemView.findViewById(R.id.thumbnail_iv);
             titleTV = itemView.findViewById(R.id.thumbnail_title_tv);
@@ -55,23 +42,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
 
     @Override
-    public void onBindViewHolder(@NonNull final MoviesViewHolder holder, final int position) {
-        holder.titleTV.setText(currentMovies.get(position).getTitle());
-        holder.titleTV.setGravity(TextView.TEXT_ALIGNMENT_GRAVITY);
-        Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.get(position).getThumbImg()).into(holder.thumbnailIV);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra(POSITION, holder.getAdapterPosition());
-                intent.putExtra(SORT_TYPE,currentType);
-                context.startActivity(intent);
-
-
-            }
-        });
-
+    public void onBindViewHolder(@NonNull MoviesViewHolder holder, int position) {
+        holder.titleTV.setText(currentMovies.get(position).getName());
+        Picasso.get().load(SupportContract.getImgURLstr("w200")).into(holder.thumbnailIV);
     }
 
     @NonNull
@@ -88,20 +61,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return currentMovies.size();
-
+        return 0;
     }
 
-    public static void setMoviesToPopular(){
+    public void setMoviesToPopular(){
         currentMovies = MovieDataHolder.getPopular();
-        currentType = SortType.POPULAR;
-
-
 
     }
-    public static  void setMoviesToTopRated(){
+    public void setMoviesToTopRated(){
         currentMovies = MovieDataHolder.getTopRated();
-        currentType = SortType.TOP_RATED;
 
     }
 }

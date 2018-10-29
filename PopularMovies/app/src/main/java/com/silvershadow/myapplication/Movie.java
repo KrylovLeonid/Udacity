@@ -3,7 +3,7 @@ package com.silvershadow.myapplication;
 public class Movie {
 
     private int id;
-    private String title;
+    private String name;
     private String headerImg;
     private String thumbImg;
     private String description;
@@ -13,7 +13,7 @@ public class Movie {
 
 
     public Movie(int id, String name, String headerImg, String thumbImg, String description, String averageRating, String votes, String releaseDate) {
-        this.title = name;
+        this.name = name;
         this.headerImg = headerImg;
         this.thumbImg = thumbImg;
         this.description = description;
@@ -23,8 +23,8 @@ public class Movie {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getHeaderImg() {
@@ -35,7 +35,7 @@ public class Movie {
         return thumbImg;
     }
 
-    public String getDescription() {
+    public String getDescreption() {
         return description;
     }
 
@@ -47,7 +47,7 @@ public class Movie {
         return votes;
     }
 
-    public String getReleaseDate() {
+    public String getReliaseDate() {
         return releaseDate;
     }
 }
