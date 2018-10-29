@@ -34,7 +34,13 @@ public class SupportContract {
                 .appendQueryParameter("page","1").build().toString();
     }
 
-    public static String getTrailer(String key){
-        return new Uri.Builder().scheme("https").path("www.youtube.com").appendPath("watch").appendQueryParameter("v",key).build().toString();
+    public static URL  getTrailerURL (String key){
+        String URLStr = new Uri.Builder().scheme("https").path("www.youtube.com").appendPath("watch").appendQueryParameter("v",key).build().toString();
+        try {
+            return new URL(URLStr);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

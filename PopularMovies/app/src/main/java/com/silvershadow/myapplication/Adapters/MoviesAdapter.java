@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
-import com.silvershadow.myapplication.Movie;
+import com.silvershadow.myapplication.Entities.Movie;
 import com.silvershadow.myapplication.MovieDetailsActivity;
 import com.silvershadow.myapplication.R;
 import com.silvershadow.myapplication.SupportContract;

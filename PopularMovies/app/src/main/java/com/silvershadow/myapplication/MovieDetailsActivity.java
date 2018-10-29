@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.silvershadow.myapplication.Adapters.MoviesAdapter;
 import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
+import com.silvershadow.myapplication.Entities.Movie;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.silvershadow.myapplication;
+package com.silvershadow.myapplication.Entities;
 
 public class Movie {
 
@@ -50,4 +50,6 @@ public class Movie {
     public String getReleaseDate() {
         return releaseDate;
     }
+
+    public int getId(){return id;}
 }

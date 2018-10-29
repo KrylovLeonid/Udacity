@@ -1,7 +1,6 @@
 package com.silvershadow.myapplication.DataLoading;
 
-import com.silvershadow.myapplication.MainActivity;
-import com.silvershadow.myapplication.Movie;
+import com.silvershadow.myapplication.Entities.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
