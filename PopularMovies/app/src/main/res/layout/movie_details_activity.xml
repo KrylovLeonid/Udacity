@@ -41,17 +41,17 @@
                 android:id="@+id/tv_movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="@dimen/medium_margin_start"
                 android:fontFamily="monospace"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/title_text"
                 android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="@dimen/small_margin_end">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -64,17 +64,19 @@
                         android:id="@+id/votes_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/small_margin_start"
                         android:text="@string/votes"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/small_text"
+                        android:textStyle="bold"
+                        />
 
                     <TextView
                         android:id="@+id/tv_movie_votes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="@dimen/medium_margin_start"
                         android:fontFamily="serif-monospace"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,23 +84,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_centerHorizontal="true"
+                    android:paddingEnd="50dp"
+
                     >
 
                     <TextView
                         android:id="@+id/rating_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/small_margin_start"
                         android:text="@string/rating"
+                        android:textSize="@dimen/small_text"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_average_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="@dimen/medium_margin_start"
                         android:fontFamily="serif-monospace"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -113,8 +118,9 @@
                         android:id="@+id/release_date_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/small_margin_start"
                         android:text="@string/release_date"
+                        android:textSize="@dimen/small_text"
                         android:textStyle="bold"
                         android:layout_alignParentEnd="true"/>
 
@@ -122,8 +128,9 @@
                         android:id="@+id/tv_release_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textSize="16sp" />
+                        android:layout_marginStart="@dimen/medium_margin_start"
+                        android:fontFamily="serif-monospace"
+                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -131,7 +138,7 @@
                 android:id="@+id/details_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/small_margin_start"
                 android:text="@string/description"
                 android:textStyle="bold" />
 
@@ -139,9 +146,9 @@
                 android:id="@+id/tv_movie_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="@dimen/medium_margin_start"
 
-                android:textSize="14sp" />
+                android:textSize="@dimen/small_text" />
         </LinearLayout>
 
     </ScrollView>
