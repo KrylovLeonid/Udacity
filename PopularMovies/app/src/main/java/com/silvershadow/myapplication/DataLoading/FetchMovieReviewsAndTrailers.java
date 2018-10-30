@@ -2,6 +2,12 @@ package com.silvershadow.myapplication.DataLoading;
 
 import android.os.AsyncTask;
 
+import com.silvershadow.myapplication.Entities.Review;
+import com.silvershadow.myapplication.Entities.Trailer;
+import com.silvershadow.myapplication.MovieDetailsActivity;
+import com.silvershadow.myapplication.SupportContract;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +18,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -46,7 +54,37 @@ public class FetchMovieReviewsAndTrailers extends AsyncTask<URL, Void, JSONObjec
     }
 
     @Override
-    protected void onPostExecute(JSONObject[] jsonObjects) {
-        super.onPostExecute(jsonObjects);
+    protected void onPostExecute(JSONObject[] json) {
+        super.onPostExecute(json);
+        try {
+            List<Trailer> trailers = convertJSONToTrailers(json[0].getJSONArray("results"));
+            List<Review> reviews = convertJSONToReviews(json[1].getJSONArray("results"));
+            MovieDetailsActivity.sReviews = reviews;
+            MovieDetailsActivity.sTrailers = trailers;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
+
+    private List<Trailer> convertJSONToTrailers(JSONArray arr) throws JSONException {
+        List<Trailer> result = new ArrayList<>();
+        for(int i = 0; i < arr.length();i++ )
+            result.add(new Trailer(arr.getJSONObject(i).getString ("name"), SupportContract.getTrailerURL(arr.getJSONObject(i).getString("key"))));
+        return result;
+    }
+
+    private List<Review> convertJSONToReviews (JSONArray arr) throws JSONException {
+        List<Review> result = new ArrayList<>();
+        for(int i = 0; i < arr.length();i++ )
+            result.add(new Review(arr.getJSONObject(i).getString("author"), arr.getJSONObject(i).getString("content")));
+
+        return result;
+    }
+
+
+
 }

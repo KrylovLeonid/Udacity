@@ -10,11 +10,17 @@ import android.widget.TextView;
 import com.silvershadow.myapplication.Adapters.MoviesAdapter;
 import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
 import com.silvershadow.myapplication.Entities.Movie;
+import com.silvershadow.myapplication.Entities.Review;
+import com.silvershadow.myapplication.Entities.Trailer;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private Movie currentMovie;
+    public static List<Review> sReviews;
+    public static List<Trailer> sTrailers;
 
     ImageView backgroundIV;
     ImageView smallIV;

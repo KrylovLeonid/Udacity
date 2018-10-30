@@ -31,11 +31,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
     private static List<Movie> currentMovies;
-    private static SortType currentType;
+
 
     public MoviesAdapter(){
         currentMovies = new ArrayList<>();
-        currentType = SortType.POPULAR;
+
     }
 
 
@@ -91,14 +91,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     public static void setMoviesToPopular(){
         currentMovies = MovieDataHolder.getPopular();
-        currentType = SortType.POPULAR;
+
 
 
 
     }
     public static  void setMoviesToTopRated(){
         currentMovies = MovieDataHolder.getTopRated();
-        currentType = SortType.TOP_RATED;
+
 
     }
 }
