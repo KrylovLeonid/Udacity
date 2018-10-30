@@ -1,6 +1,10 @@
 package com.silvershadow.myapplication.Entities;
 
-public class Movie {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Movie implements Serializable {
 
     private int id;
     private String title;
@@ -10,6 +14,8 @@ public class Movie {
     private String averageRating;
     private String votes;
     private String releaseDate;
+    private List<Review> reviews;
+    private List<Trailer> trailers;
 
 
     public Movie(int id, String name, String headerImg, String thumbImg, String description, String averageRating, String votes, String releaseDate) {
@@ -21,6 +27,8 @@ public class Movie {
         this.votes = votes;
         this.releaseDate = releaseDate;
         this.id = id;
+        reviews = new ArrayList<>();
+        trailers = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -52,4 +60,12 @@ public class Movie {
     }
 
     public int getId(){return id;}
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setTrailers(List<Trailer> trailers) {
+        this.trailers = trailers;
+    }
 }

@@ -23,9 +23,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-
-    public static String POSITION = "position";
-    public static String SORT_TYPE = "sort type";
+    public static String MOVIE ="Movie";
 
     public enum SortType{
         TOP_RATED,
@@ -64,8 +62,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra(POSITION, holder.getAdapterPosition());
-                intent.putExtra(SORT_TYPE,currentType);
+                intent.putExtra(MOVIE, currentMovies.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
 
 

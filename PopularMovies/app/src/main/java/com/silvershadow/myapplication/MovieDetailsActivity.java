@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    private Movie currentMovie;
+
     ImageView backgroundIV;
     ImageView smallIV;
     TextView titleTV;
@@ -28,12 +30,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details_activity);
         Intent intent = getIntent();
-        int position = intent.getIntExtra(MoviesAdapter.POSITION ,0);
-        MoviesAdapter.SortType type = (MoviesAdapter.SortType) intent.getSerializableExtra(MoviesAdapter.SORT_TYPE);
+        currentMovie = (Movie) intent.getSerializableExtra(MoviesAdapter.MOVIE);
+
 
 
         connectViews();
-        populateViews(position,type);
+        populateViews();
 
     }
 
@@ -50,8 +52,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void populateViews(int position, MoviesAdapter.SortType sortType){
-        Movie currentMovie = getMovie(position,sortType);
+    private void populateViews(){
         Picasso.get().load(SupportContract.getImgURLstr("w400")+ currentMovie.getHeaderImg()).into(backgroundIV);
         Picasso.get().load(SupportContract.getImgURLstr("w400") + currentMovie.getThumbImg()).into(smallIV);
         titleTV.setText(currentMovie.getTitle());
@@ -63,18 +64,4 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     }
 
-    private Movie getMovie(int position, MoviesAdapter.SortType sortType){
-        Movie movie;
-        switch(sortType){
-            case POPULAR:
-                movie = MovieDataHolder.getPopular().get(position);
-                break;
-            case TOP_RATED:
-                movie = MovieDataHolder.getTopRated().get(position);
-                break;
-                default:
-                    movie = null;
-        }
-        return movie;
-    }
 }

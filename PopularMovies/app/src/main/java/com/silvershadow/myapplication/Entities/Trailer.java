@@ -1,8 +1,9 @@
 package com.silvershadow.myapplication.Entities;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class Trailer {
+public class Trailer implements Serializable {
     String name;
     URL trailerURL;
 
