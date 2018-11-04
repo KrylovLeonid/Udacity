@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.silvershadow.myapplication.Adapters.MoviesAdapter;
-import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
+import com.silvershadow.myapplication.Adapters.TrailersAdapter;
 import com.silvershadow.myapplication.Entities.Movie;
 import com.silvershadow.myapplication.Entities.Review;
 import com.silvershadow.myapplication.Entities.Trailer;
@@ -19,8 +21,6 @@ import java.util.List;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private Movie currentMovie;
-    public static List<Review> sReviews;
-    public static List<Trailer> sTrailers;
 
     ImageView backgroundIV;
     ImageView smallIV;
@@ -29,6 +29,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView averageRatingTV;
     TextView releaseDateTV;
     TextView descriptionTV;
+
+    RecyclerView trailersRV;
+    RecyclerView reviewsRV;
 
 
     @Override
@@ -55,6 +58,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
          averageRatingTV = findViewById(R.id.tv_average_rating);
          releaseDateTV = findViewById(R.id.tv_release_date);
          descriptionTV = findViewById(R.id.tv_movie_details);
+
+         trailersRV = findViewById(R.id.rv_trailers);
+         reviewsRV = findViewById(R.id.rv_reviews);
     }
 
 
@@ -67,6 +73,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
         releaseDateTV.setText(currentMovie.getReleaseDate());
         descriptionTV.setText(currentMovie.getDescription());
         setTitle(currentMovie.getTitle());
+
+    }
+
+    private void setAdapters(){
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+        trailersRV.setLayoutManager(lm);
+        trailersRV.setHasFixedSize(true);
+        TrailersAdapter trailersAdapter = new TrailersAdapter(currentMovie);
+        trailersRV.setAdapter(trailersAdapter);
 
     }
 

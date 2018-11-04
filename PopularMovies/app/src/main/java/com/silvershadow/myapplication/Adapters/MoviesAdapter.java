@@ -1,5 +1,6 @@
 package com.silvershadow.myapplication.Adapters;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,30 +12,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.silvershadow.myapplication.DataLoading.MovieDataHolder;
+import com.silvershadow.myapplication.ViewModel.MovieDataModel;
 import com.silvershadow.myapplication.Entities.Movie;
 import com.silvershadow.myapplication.MovieDetailsActivity;
 import com.silvershadow.myapplication.R;
 import com.silvershadow.myapplication.SupportContract;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-    public static String MOVIE ="Movie";
 
-    public enum SortType{
-        TOP_RATED,
-        POPULAR
-    }
+    public static final String MOVIE ="Movie";
+    private LiveData<List<Movie>> currentMovies;
+    MovieDataModel model;
 
-    private static List<Movie> currentMovies;
-
-
-    public MoviesAdapter(){
-        currentMovies = new ArrayList<>();
+    public MoviesAdapter(MovieDataModel m){
+        model = m;
+        currentMovies = model.getPopularMovies();
 
     }
 
@@ -54,15 +50,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public void onBindViewHolder(@NonNull final MoviesViewHolder holder, final int position) {
-        holder.titleTV.setText(currentMovies.get(position).getTitle());
+        holder.titleTV.setText(currentMovies.getValue().get(position).getTitle());
         holder.titleTV.setGravity(TextView.TEXT_ALIGNMENT_GRAVITY);
-        Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.get(position).getThumbImg()).into(holder.thumbnailIV);
+        Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.getValue().get(position).getThumbImg()).into(holder.thumbnailIV);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra(MOVIE, currentMovies.get(holder.getAdapterPosition()));
+                intent.putExtra(MOVIE, currentMovies.getValue().get(holder.getAdapterPosition()));
                 context.startActivity(intent);
 
 
@@ -85,19 +81,22 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return currentMovies.size();
+        return currentMovies.getValue().size();
 
     }
 
-    public static void setMoviesToPopular(){
-        currentMovies = MovieDataHolder.getPopular();
+    public void setMoviesToPopular(){
+
+        currentMovies = model.getPopularMovies();
+        notifyDataSetChanged();
 
 
 
 
     }
-    public static  void setMoviesToTopRated(){
-        currentMovies = MovieDataHolder.getTopRated();
+    public void setMoviesToTopRated(){
+        currentMovies = model.getTopRatedMovies();
+        notifyDataSetChanged();
 
 
     }

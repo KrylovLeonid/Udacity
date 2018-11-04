@@ -1,22 +1,24 @@
 package com.silvershadow.myapplication.Entities;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 import java.net.URL;
 
 public class Trailer implements Serializable {
-    String name;
-    URL trailerURL;
+    private String  name;
+    private Uri trailerUri;
 
-    public Trailer(String name, URL trailerURL) {
+    public Trailer(String name, Uri trailerURL) {
         this.name = name;
-        this.trailerURL = trailerURL;
+        this.trailerUri = trailerURL;
     }
 
     public String getName() {
         return name;
     }
 
-    public URL getTrailerURL() {
-        return trailerURL;
+    public Uri getTrailerUri() {
+        return trailerUri;
     }
 }
