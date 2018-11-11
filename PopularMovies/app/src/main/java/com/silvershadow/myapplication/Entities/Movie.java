@@ -1,12 +1,15 @@
 package com.silvershadow.myapplication.Entities;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity (tableName = "movies")
 public class Movie implements Serializable {
-
+    @PrimaryKey
     private int id;
+
     private String title;
     private String headerImg;
     private String thumbImg;
@@ -14,22 +17,10 @@ public class Movie implements Serializable {
     private String averageRating;
     private String votes;
     private String releaseDate;
-    private List<Review> reviews;
-    private List<Trailer> trailers;
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public List<Trailer> getTrailers() {
-        return trailers;
-    }
 
 
-
-
-    public Movie(int id, String name, String headerImg, String thumbImg, String description, String averageRating, String votes, String releaseDate) {
-        this.title = name;
+    public Movie(int id, String title, String headerImg, String thumbImg, String description, String averageRating, String votes, String releaseDate) {
+        this.title = title;
         this.headerImg = headerImg;
         this.thumbImg = thumbImg;
         this.description = description;
@@ -37,8 +28,6 @@ public class Movie implements Serializable {
         this.votes = votes;
         this.releaseDate = releaseDate;
         this.id = id;
-        reviews = new ArrayList<>(0);
-        trailers = new ArrayList<>(0);
     }
 
     public String getTitle() {
@@ -71,11 +60,51 @@ public class Movie implements Serializable {
 
     public int getId(){return id;}
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTrailers(List<Trailer> trailers) {
-        this.trailers = trailers;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setHeaderImg(String headerImg) {
+        this.headerImg = headerImg;
+    }
+
+    public void setThumbImg(String thumbImg) {
+        this.thumbImg = thumbImg;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAverageRating(String averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public void setVotes(String votes) {
+        this.votes = votes;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    @Ignore
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(this.getClass() != obj.getClass())
+            return false;
+        Movie other = (Movie)obj;
+        return this.id == other.getId();
+    }
+    @Ignore
+    public int hashCode(){
+        return 2 + 12*id + 49*title.hashCode() + 89*headerImg.hashCode() + 140*thumbImg.hashCode() +
+                240*description.hashCode() + 503*averageRating.hashCode() + 723*votes.hashCode() + 1024*releaseDate.hashCode();
     }
 }

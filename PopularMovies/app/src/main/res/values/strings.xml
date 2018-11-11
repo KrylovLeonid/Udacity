@@ -4,11 +4,14 @@
     <string name="mi_most_popular">Most popular</string>
     <string name="connection_error">Popular Movies app cannot work offline. Please check internet connection on and restart the app. </string>
     <string name="reviews">Reviews:</string>
-    <string name="trailers">Trailer:</string>
+    <string name="trailers">Trailers:</string>
     <string name="top_rated">Top rated</string>
-    <string name="popular">Most popular:</string>
+    <string name="popular">Most popular</string>
     <string name="votes">Votes:</string>
     <string name="rating">Rating:</string>
     <string name="release_date">Release date:</string>
     <string name="description">Description:</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_to_favorite">Favorite</string>
+    <string name="remove_from_favorite">Remove</string>
 </resources>

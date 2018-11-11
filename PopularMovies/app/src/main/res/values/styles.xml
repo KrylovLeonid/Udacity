@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MovieItemTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
+    <style name="MovieItemTitleStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_marginStart">10dp</item>
+    </style>
+
 </resources>

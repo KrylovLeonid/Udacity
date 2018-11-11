@@ -1,19 +1,25 @@
 package com.silvershadow.myapplication;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.silvershadow.myapplication.Adapters.MoviesAdapter;
+import com.silvershadow.myapplication.Adapters.ReviewsAdapter;
 import com.silvershadow.myapplication.Adapters.TrailersAdapter;
 import com.silvershadow.myapplication.Entities.Movie;
 import com.silvershadow.myapplication.Entities.Review;
 import com.silvershadow.myapplication.Entities.Trailer;
+import com.silvershadow.myapplication.ViewModel.SingleMovieViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,6 +27,8 @@ import java.util.List;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private Movie currentMovie;
+    private boolean isFavorite = true;
+    private SingleMovieViewModel model;
 
     ImageView backgroundIV;
     ImageView smallIV;
@@ -32,6 +40,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     RecyclerView trailersRV;
     RecyclerView reviewsRV;
+    TrailersAdapter trailersAdapter;
+    ReviewsAdapter reviewsAdapter;
+
+    Button favoriteButton;
 
 
     @Override
@@ -39,13 +51,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_details_activity);
         Intent intent = getIntent();
-        currentMovie = (Movie) intent.getSerializableExtra(MoviesAdapter.MOVIE);
+        currentMovie = (Movie)intent.getSerializableExtra(SupportContract.MOVIE_KEY);
 
+        model = ViewModelProviders.of(this).get(SingleMovieViewModel.class);
 
+        model.loadReviews(currentMovie.getId());
+        model.loadTrailers(currentMovie.getId());
+
+        model.getTrailers().observe(this, new Observer<List<Trailer>>() {
+            @Override
+            public void onChanged(@Nullable List<Trailer> trailers) {
+                trailersAdapter.notifyDataSetChanged();
+            }
+        });
+        model.getReviews().observe(this, new Observer<List<Review>>() {
+            @Override
+            public void onChanged(@Nullable List<Review> reviews) {
+                reviewsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        model.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                isFavorite = movies != null && movies.contains(currentMovie);
+                setFavoriteButtonStyle();
+            }
+        });
 
         connectViews();
         populateViews();
 
+        setAdapters();
     }
 
 
@@ -61,9 +98,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
          trailersRV = findViewById(R.id.rv_trailers);
          reviewsRV = findViewById(R.id.rv_reviews);
+         favoriteButton = findViewById(R.id.favorite_button);
+
+
     }
-
-
     private void populateViews(){
         Picasso.get().load(SupportContract.getImgURLstr("w400")+ currentMovie.getHeaderImg()).into(backgroundIV);
         Picasso.get().load(SupportContract.getImgURLstr("w400") + currentMovie.getThumbImg()).into(smallIV);
@@ -74,15 +112,47 @@ public class MovieDetailsActivity extends AppCompatActivity {
         descriptionTV.setText(currentMovie.getDescription());
         setTitle(currentMovie.getTitle());
 
+        setFavoriteButton();
+
+
     }
 
     private void setAdapters(){
-        LinearLayoutManager lm = new LinearLayoutManager(this);
-        trailersRV.setLayoutManager(lm);
+        LinearLayoutManager trailersLm = new LinearLayoutManager(this);
+        trailersRV.setLayoutManager(trailersLm);
         trailersRV.setHasFixedSize(true);
-        TrailersAdapter trailersAdapter = new TrailersAdapter(currentMovie);
+        trailersAdapter = new TrailersAdapter(model);
         trailersRV.setAdapter(trailersAdapter);
 
+        LinearLayoutManager reviewsLm = new LinearLayoutManager(this);
+        reviewsRV.setLayoutManager(reviewsLm);
+        reviewsRV.setHasFixedSize(true);
+        reviewsAdapter = new ReviewsAdapter(model);
+        reviewsRV.setAdapter(reviewsAdapter);
+    }
+
+    private void setFavoriteButton(){
+        setFavoriteButtonStyle();
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFavorite){
+                    model.removeFavoriteMovie(currentMovie);
+                }else{
+                    model.addFavoriteMovie(currentMovie);
+                }
+            }
+        });
+    }
+
+    private void setFavoriteButtonStyle(){
+        if(isFavorite){
+            favoriteButton.setText(R.string.remove_from_favorite);
+            favoriteButton.setBackgroundColor(Color.YELLOW);
+        }else {
+            favoriteButton.setText(R.string.add_to_favorite);
+            favoriteButton.setBackgroundColor(Color.GREEN);
+        }
     }
 
 }

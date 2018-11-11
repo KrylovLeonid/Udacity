@@ -1,7 +1,7 @@
 package com.silvershadow.myapplication;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -14,17 +14,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.silvershadow.myapplication.Adapters.MoviesAdapter;
-import com.silvershadow.myapplication.ViewModel.MovieDataModel;
+import com.silvershadow.myapplication.ViewModel.AllMoviesViewModel;
 import com.silvershadow.myapplication.Entities.Movie;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private RecyclerView allMoviesRV;
     public static MoviesAdapter mMovieAdapter;
     private ConnectivityManager cm;
-
+    private AllMoviesViewModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,28 +33,16 @@ public class MainActivity extends AppCompatActivity {
         cm.getActiveNetworkInfo();
         if (cm.getActiveNetworkInfo() != null) {
             setContentView(R.layout.activity_main);
-            final MovieDataModel model = new ViewModelProvider(getViewModelStore(), ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(MovieDataModel.class);
+            model = ViewModelProviders.of(this).get(AllMoviesViewModel.class);
 
             model.loadMovies("popular");
             model.loadMovies("top_rated");
-            model.getPopularMovies().observe(this, new Observer<List<Movie>>() {
-                @Override
-                public void onChanged(@Nullable List<Movie> movies) {
-                    mMovieAdapter.notifyDataSetChanged();
-                }
-            });
-            model.getTopRatedMovies().observe(this, new Observer<List<Movie>>() {
-                @Override
-                public void onChanged(@Nullable List<Movie> movies) {
-                    mMovieAdapter.notifyDataSetChanged();
-                }
-            });
 
             allMoviesRV = findViewById(R.id.movies_rv);
             allMoviesRV.setHasFixedSize(true);
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             allMoviesRV.setLayoutManager(layoutManager);
-            mMovieAdapter = new MoviesAdapter(model);
+            mMovieAdapter = new MoviesAdapter(model, getLifecycle());
             allMoviesRV.setAdapter(mMovieAdapter);
         } else
             setContentView(R.layout.internet_error_layout);
@@ -75,12 +64,18 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.popular_mi:
                     mMovieAdapter.setMoviesToPopular();
-
+                    setTitle(R.string.popular);
                     break;
                 case R.id.top_rated_mi:
                     mMovieAdapter.setMoviesToTopRated();
+                    setTitle(R.string.top_rated);
                     break;
-                default:
+                case R.id.favorite_mi:
+                    mMovieAdapter.setMoviesToFavorite();
+                    setTitle(R.string.favorite);
+                    break;
+
+                    default:
                     return false;
 
             }
@@ -90,4 +85,5 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
 }

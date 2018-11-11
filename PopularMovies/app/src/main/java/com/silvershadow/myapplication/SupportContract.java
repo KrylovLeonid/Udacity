@@ -7,6 +7,8 @@ import java.net.URL;
 
 public class SupportContract {
     public static String API_TOKEN = BuildConfig.API_KEY;
+    public static final String MOVIE_SORT_TYPE_KEY = "sort type";
+    public static final  String MOVIE_KEY = "movie";
 
 
     public  static String getImgURLstr(String size ){
@@ -43,4 +45,6 @@ public class SupportContract {
 
         return new Uri.Builder().scheme("https").path("www.youtube.com").appendPath("watch").appendQueryParameter("v",key).build();
     }
+
+
 }

@@ -1,9 +1,13 @@
 package com.silvershadow.myapplication.Adapters;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,26 +16,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.silvershadow.myapplication.ViewModel.MovieDataModel;
+import com.silvershadow.myapplication.ViewModel.AllMoviesViewModel;
 import com.silvershadow.myapplication.Entities.Movie;
 import com.silvershadow.myapplication.MovieDetailsActivity;
 import com.silvershadow.myapplication.R;
 import com.silvershadow.myapplication.SupportContract;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> implements LifecycleOwner {
+
+    private List<Movie> currentMovies;
+    private AllMoviesViewModel model;
+    private Lifecycle mLifecycle;
 
 
-    public static final String MOVIE ="Movie";
-    private LiveData<List<Movie>> currentMovies;
-    MovieDataModel model;
-
-    public MoviesAdapter(MovieDataModel m){
+    public MoviesAdapter(AllMoviesViewModel m, Lifecycle lifecycle){
         model = m;
-        currentMovies = model.getPopularMovies();
+        mLifecycle = lifecycle;
+        setMoviesToPopular();
+     }
 
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return mLifecycle;
     }
 
 
@@ -50,18 +61,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public void onBindViewHolder(@NonNull final MoviesViewHolder holder, final int position) {
-        holder.titleTV.setText(currentMovies.getValue().get(position).getTitle());
+        holder.titleTV.setText(currentMovies.get(position).getTitle());
         holder.titleTV.setGravity(TextView.TEXT_ALIGNMENT_GRAVITY);
-        Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.getValue().get(position).getThumbImg()).into(holder.thumbnailIV);
+        Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.get(position).getThumbImg()).into(holder.thumbnailIV);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra(MOVIE, currentMovies.getValue().get(holder.getAdapterPosition()));
+                intent.putExtra(SupportContract.MOVIE_KEY, currentMovies.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
-
-
             }
         });
 
@@ -81,23 +90,36 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return currentMovies.getValue().size();
+        return currentMovies != null ? currentMovies.size() : 0;
 
     }
 
     public void setMoviesToPopular(){
-
-        currentMovies = model.getPopularMovies();
-        notifyDataSetChanged();
-
-
-
-
+        model.getPopularMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                currentMovies = movies;
+                notifyDataSetChanged();
+            }
+        });
     }
     public void setMoviesToTopRated(){
-        currentMovies = model.getTopRatedMovies();
-        notifyDataSetChanged();
-
-
+        model.getTopRatedMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                currentMovies = movies;
+                notifyDataSetChanged();
+            }
+        });
     }
+    public void setMoviesToFavorite() {
+        model.getFavoriteMoviesDB().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                currentMovies = movies;
+                notifyDataSetChanged();
+            }
+        });
+    }
+
 }
