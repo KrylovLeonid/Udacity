@@ -12,6 +12,6 @@
     <string name="release_date">Release date:</string>
     <string name="description">Description:</string>
     <string name="favorite">Favorite</string>
-    <string name="add_to_favorite">Favorite</string>
+    <string name="add_to_favorite">Add</string>
     <string name="remove_from_favorite">Remove</string>
 </resources>

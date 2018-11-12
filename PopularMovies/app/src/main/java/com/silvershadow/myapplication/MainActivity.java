@@ -3,6 +3,7 @@ package com.silvershadow.myapplication;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
             allMoviesRV.setHasFixedSize(true);
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             allMoviesRV.setLayoutManager(layoutManager);
-            mMovieAdapter = new MoviesAdapter(model, getLifecycle());
+            mMovieAdapter = new MoviesAdapter(model, getLifecycle(), new MoviesAdapter.MovieItemClickListener() {
+                @Override
+                public void onItemClick(Movie movie, Context context) {
+                    Intent intent = new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra(SupportContract.MOVIE_KEY, movie);
+                    startActivity(intent);
+                }
+            });
             allMoviesRV.setAdapter(mMovieAdapter);
         } else
             setContentView(R.layout.internet_error_layout);

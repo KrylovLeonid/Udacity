@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,12 +32,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     private List<Movie> currentMovies;
     private AllMoviesViewModel model;
     private Lifecycle mLifecycle;
+    private MovieItemClickListener mListener;
+
+    public interface MovieItemClickListener{
+       void onItemClick(Movie movie, Context context);
+    }
 
 
-    public MoviesAdapter(AllMoviesViewModel m, Lifecycle lifecycle){
+    public MoviesAdapter(AllMoviesViewModel m, Lifecycle lifecycle, MovieItemClickListener listener ){
         model = m;
         mLifecycle = lifecycle;
         setMoviesToPopular();
+        mListener = listener;
+
      }
 
     @NonNull
@@ -46,7 +54,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
 
-    class MoviesViewHolder extends RecyclerView.ViewHolder{
+    class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView thumbnailIV;
         TextView titleTV;
 
@@ -54,8 +62,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             super(itemView);
             thumbnailIV = itemView.findViewById(R.id.thumbnail_iv);
             titleTV = itemView.findViewById(R.id.thumbnail_title_tv);
+            itemView.setOnClickListener(this);
+
         }
 
+        @Override
+        public void onClick(View v) {
+            mListener.onItemClick(currentMovies.get(getAdapterPosition()), v.getContext());
+        }
     }
 
 
@@ -64,15 +78,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         holder.titleTV.setText(currentMovies.get(position).getTitle());
         holder.titleTV.setGravity(TextView.TEXT_ALIGNMENT_GRAVITY);
         Picasso.get().load(SupportContract.getImgURLstr("w200") + currentMovies.get(position).getThumbImg()).into(holder.thumbnailIV);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra(SupportContract.MOVIE_KEY, currentMovies.get(holder.getAdapterPosition()));
-                context.startActivity(intent);
-            }
-        });
 
     }
 
@@ -82,7 +87,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.movie_item,parent,false);
-
         return new MoviesViewHolder(view);
     }
 

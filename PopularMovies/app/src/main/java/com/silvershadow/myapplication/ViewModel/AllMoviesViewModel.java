@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class AllMoviesViewModel extends AndroidViewModel {
     private MutableLiveData <List<Movie>> topRatedMovies = new MutableLiveData<>();
@@ -51,9 +52,9 @@ public class AllMoviesViewModel extends AndroidViewModel {
 
     @SuppressLint("StaticFieldLeak")
     public void loadMovies(final String type){
-
         new AsyncTask<Void, Void, List<Movie>>(){
             List<Movie> result;
+
 
             @Override
             protected List<Movie> doInBackground(Void... voids) {

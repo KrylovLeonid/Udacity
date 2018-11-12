@@ -2,8 +2,10 @@ package com.silvershadow.myapplication;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,7 +124,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         LinearLayoutManager trailersLm = new LinearLayoutManager(this);
         trailersRV.setLayoutManager(trailersLm);
         trailersRV.setHasFixedSize(true);
-        trailersAdapter = new TrailersAdapter(model);
+        trailersAdapter = new TrailersAdapter(model, new TrailersAdapter.OnTrailerClickListener() {
+            @Override
+            public void onClick(Uri trailerUri, Context context) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
+                startActivity(intent);
+            }
+        });
         trailersRV.setAdapter(trailersAdapter);
 
         LinearLayoutManager reviewsLm = new LinearLayoutManager(this);
@@ -148,10 +157,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void setFavoriteButtonStyle(){
         if(isFavorite){
             favoriteButton.setText(R.string.remove_from_favorite);
-            favoriteButton.setBackgroundColor(Color.YELLOW);
+            favoriteButton.setCompoundDrawablesWithIntrinsicBounds (getResources().getDrawable(R.drawable.ic_thumb_down_24dp), null,null,null);
+            favoriteButton.setCompoundDrawablePadding(5);
         }else {
             favoriteButton.setText(R.string.add_to_favorite);
-            favoriteButton.setBackgroundColor(Color.GREEN);
+            favoriteButton.setCompoundDrawablesWithIntrinsicBounds (getResources().getDrawable(R.drawable.ic_thumb_up_24dp), null,null,null);
+            favoriteButton.setCompoundDrawablePadding(5);
         }
     }
 

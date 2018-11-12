@@ -7,14 +7,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_review_author"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/small_margin_start"/>
+       style="@style/MovieItemTitleStyle"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_review_content"
-        android:textSize="@dimen/small_text"
-        android:layout_marginStart="@dimen/medium_margin_start"/>
+        style="@style/MovieItemTextStyle"/>
 
 </LinearLayout>

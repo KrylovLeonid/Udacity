@@ -6,11 +6,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_trailer_name"
-        android:textSize="@dimen/small_text"
-        android:textStyle="bold"
-        android:layout_marginStart="@dimen/small_margin_start"
-
-
+        android:gravity="center_vertical"
+        android:drawablePadding='10dp'
+        style="@style/TrailerStyle"
         android:drawableStart="@drawable/ic_youtube_32"/>
 
 </LinearLayout>
