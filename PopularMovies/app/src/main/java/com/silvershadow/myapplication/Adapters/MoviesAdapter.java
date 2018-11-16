@@ -2,32 +2,27 @@ package com.silvershadow.myapplication.Adapters;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.silvershadow.myapplication.ViewModel.AllMoviesViewModel;
 import com.silvershadow.myapplication.Entities.Movie;
-import com.silvershadow.myapplication.MovieDetailsActivity;
 import com.silvershadow.myapplication.R;
 import com.silvershadow.myapplication.SupportContract;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> implements LifecycleOwner {
+
+
 
     private List<Movie> currentMovies;
     private AllMoviesViewModel model;
@@ -39,10 +34,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
 
-    public MoviesAdapter(AllMoviesViewModel m, Lifecycle lifecycle, MovieItemClickListener listener ){
+    public MoviesAdapter(AllMoviesViewModel m, Lifecycle lifecycle, MovieItemClickListener listener){
         model = m;
         mLifecycle = lifecycle;
-        setMoviesToPopular();
         mListener = listener;
 
      }
@@ -63,6 +57,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             thumbnailIV = itemView.findViewById(R.id.thumbnail_iv);
             titleTV = itemView.findViewById(R.id.thumbnail_title_tv);
             itemView.setOnClickListener(this);
+
+
 
         }
 
